@@ -1,0 +1,44 @@
+// Generated for: spectre
+// Generated on: Jan 20 16:41:06 2026
+// Design library name: capstone_tmc03
+// Design cell name: inv_tb
+// Design view name: schematic
+simulator lang=spectre
+global 0 vdd!
+include "/users/ugrad/ananyb2/CAPSTONE/ncsu-cdk-1.6.0/models/spectre/standalone/tsmc25N.m"
+include "/users/ugrad/ananyb2/CAPSTONE/ncsu-cdk-1.6.0/models/spectre/standalone/tsmc25P.m"
+
+// Library name: capstone_tmc03
+// Cell name: inv
+// View name: schematic
+subckt inv vdd vin vout inh_inh_bn
+    M0 (vout vin 0 gnd!) tsmc25N w=450.0n l=300n as=3.375e-13 ad=3.375e-13 \
+        ps=2.4u pd=2.4u m=1 region=sat
+    M1 (vout vin vdd vdd!) tsmc25P w=450.0n l=300n as=3.375e-13 \
+        ad=3.375e-13 ps=2.4u pd=2.4u m=1 region=sat
+ends inv
+// End of subcircuit definition.
+
+// Library name: capstone_tmc03
+// Cell name: inv_tb
+// View name: schematic
+I5 (vdd! net1 net2 0) inv
+V1 (net1 0) vsource type=pulse val0=0 val1=2.5 period=10n delay=0 rise=100.0p  \
+         fall=100.0p width=4.9n
+C0 (net2 0) capacitor c=100 m=1
+include "./_graphical_stimuli.scs"
+simulatorOptions options reltol=1e-3 vabstol=1e-6 iabstol=1e-12 temp=27 \
+    tnom=27 scalem=1.0 scale=1.0 gmin=1e-12 rforce=1 maxnotes=5 maxwarns=5 \
+    digits=5 cols=80 pivrel=1e-3 sensfile="../psf/sens.output" \
+    checklimitdest=psf
+tran tran stop=50n write="spectre.ic" writefinal="spectre.fc" \
+    annotate=status maxiters=5
+finalTimeOP info what=oppoint where=rawfile
+modelParameter info what=models where=rawfile
+element info what=inst where=rawfile
+outputParameter info what=output where=rawfile
+designParamVals info what=parameters where=rawfile
+primitives info what=primitives where=rawfile
+subckts info what=subckts where=rawfile
+save
+saveOptions options save=allpub

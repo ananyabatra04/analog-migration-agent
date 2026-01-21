@@ -1,0 +1,11 @@
+{
+  "model_map": {
+    "tsmc25N": "tsmc03N",
+    "tsmc25P": "tsmc03P"
+  },
+  "param_scale": {
+    "W": 1.0,
+    "L": 1.0
+  },
+  "include_map": {}
+}
