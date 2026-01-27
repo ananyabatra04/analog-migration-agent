@@ -30,25 +30,25 @@ async def ingest_skywater_pdk(
         print(f"📂 Working directory: {working_dir}")
         
         # Get RAG instance for ingestion
-        print("🚀 Initializing RAGAnything...")
+        print("Initializing RAGAnything")
         rag = get_rag_instance(pdk_name="skywater130", for_ingestion=True)
         
         # Process document
-        print("⚙️  Processing document...")
+        print("Processing document")
         await rag.process_document_complete(
             file_path=str(pdf_path),
             output_dir=output_dir,
             parse_method="auto",
             start_page=0,
-            end_page=4
+            end_page=30
         )
         
-        print("✅ Ingestion complete!")
+        print("INGESTION COMPLETE")
         print(f"   Index stored in: {working_dir}")
         return True
         
     except Exception as e:
-        print(f"❌ Ingestion failed: {e}")
+        print(f"INGESTION FAILED WITH REASON: {e}")
         import traceback
         traceback.print_exc()
         return False    

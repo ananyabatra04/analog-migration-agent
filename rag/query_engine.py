@@ -50,8 +50,9 @@ if __name__ == "__main__":
         engine = PDKQueryEngine("skywater130")
         
         test_questions = [
-            "What is this PDK?",
-            "What are the main topics covered?",
+            "What is this PDK? Be Brief",
+            "What are the main topics covered? Be Brief",
+            "How many different transistor types are there? Describe each one briefly."
         ]
         
         for i, question in enumerate(test_questions, 1):
@@ -59,7 +60,7 @@ if __name__ == "__main__":
             
             try:
                 result = await engine.query(question)
-                print(f"💬 Answer: {result[:200]}...")
+                print(f"💬 Answer: {result}...")
                 print()
             except Exception as e:
                 print(f"❌ Error: {e}")

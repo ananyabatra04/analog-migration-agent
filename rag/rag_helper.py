@@ -9,6 +9,9 @@ from raganything import RAGAnything, RAGAnythingConfig
 from lightrag import LightRAG
 from lightrag.llm.openai import openai_complete_if_cache, openai_embed
 from lightrag.utils import EmbeddingFunc
+import numpy as np
+from openai import AsyncOpenAI
+
 
 load_dotenv()
 
@@ -67,16 +70,38 @@ def get_rag_instance(
         else:
             return llm_func(prompt, system_prompt, history_messages, **kwargs)
     
-    # Embedding function
-    embedding_func = EmbeddingFunc(
-            embedding_dim=1536,
-            max_token_size=8192,
-            func=lambda text: openai_embed(
-                text,
-                model="text-embedding-3-small",
-                api_key=api_key
-            )
+    
+    
+    async def openai_embed(texts):
+        client = AsyncOpenAI(api_key=api_key)
+        
+        if isinstance(texts, str):
+            texts = [texts]
+        
+        if not texts:
+            return np.array([]) # Return empty numpy array
+
+        response = await client.embeddings.create(
+            model="text-embedding-3-large",
+            input=texts
         )
+        
+        # OpenAI model returns an object with many fields and metadata. 
+        # LightRAG only wants the data AKA the embeddings.        
+        embeddings = [item.embedding for item in response.data]
+        
+        # Safety check for count
+        # if len(embeddings) != len(texts):
+        #     embeddings = embeddings[:len(texts)]
+            
+        # Converting to numpy to enable similarity calcs by LightRAG
+        return np.array(embeddings)
+    
+    embedding_func = EmbeddingFunc(
+    embedding_dim=3072,
+    max_token_size=8192,
+    func=openai_embed
+    )
     
     # RAG config
     config = RAGAnythingConfig(
