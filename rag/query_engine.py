@@ -18,9 +18,9 @@ class PDKQueryEngine:
     def _get_rag(self):
         """Lazy load RAG instance"""
         if self._rag is None:
-            print(f"🔍 Loading RAG system for {self.pdk_name}...")
+            print(f"Loading RAG system for {self.pdk_name}...")
             self._rag = get_rag_instance(pdk_name=self.pdk_name, for_ingestion=False)
-            print(f"✅ RAG system loaded")
+            print(f"RAG system loaded")
         return self._rag
     
     async def query(self, question: str, mode: str = "hybrid"):
@@ -37,10 +37,7 @@ class PDKQueryEngine:
 # Quick test
 if __name__ == "__main__":
     async def test():
-        print("=" * 60)
         print("Testing PDK Query Engine")
-        print("=" * 60)
-        print()
         
         engine = PDKQueryEngine("skywater130")
         
@@ -51,16 +48,15 @@ if __name__ == "__main__":
         ]
         
         for i, question in enumerate(test_questions, 1):
-            print(f"📝 Query {i}: {question}")
+            print(f"Query {i}: {question}")
             
             try:
                 result = await engine.query(question)
-                print(f"💬 Answer: {result}...")
+                print(f"Answer: {result}...")
                 print()
             except Exception as e:
-                print(f"❌ Error: {e}")
+                print(f"Error: {e}")
                 print()
         
-        print("=" * 60)
     
     asyncio.run(test())
