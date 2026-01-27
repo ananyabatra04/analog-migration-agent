@@ -89,10 +89,6 @@ def get_rag_instance(
         # OpenAI model returns an object with many fields and metadata. 
         # LightRAG only wants the data AKA the embeddings.        
         embeddings = [item.embedding for item in response.data]
-        
-        # Safety check for count
-        # if len(embeddings) != len(texts):
-        #     embeddings = embeddings[:len(texts)]
             
         # Converting to numpy to enable similarity calcs by LightRAG
         return np.array(embeddings)

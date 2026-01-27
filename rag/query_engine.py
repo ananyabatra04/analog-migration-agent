@@ -24,18 +24,13 @@ class PDKQueryEngine:
         return self._rag
     
     async def query(self, question: str, mode: str = "hybrid"):
-        """
-        Query the PDK documentation
-        
+        """        
         Args:
             question: Question to ask
             mode: Query mode - 'naive', 'local', 'global', or 'hybrid'
-        
-        Returns:
-            Answer string
         """
         rag = self._get_rag()
-        result = await rag.aquery(question, mode=mode)
+        result = await rag.aquery(question, mode=mode, top_k=19, enable_rerank=False)
         return result
 
 

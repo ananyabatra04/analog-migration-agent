@@ -10,16 +10,16 @@ from rag_helper import get_rag_instance
 load_dotenv()
 
 
-async def ingest_skywater_pdk(
+async def ingest_pdk(
     pdf_path: str = None,
     working_dir: str = "./working_dir/skywater130",
     output_dir: str = "./output/skywater130"
 ):
-    """Ingest Skywater 130nm PDK documentation"""
+    """Ingest PDK documentation"""
     
     try:
         if pdf_path is None:
-            pdf_path = Path(__file__).parent / "knowledge-base" / "skywater-pdk-readthedocs-io-en-main.pdf"
+            pdf_path = Path(__file__).parent / knowledge_base / "skywater-pdk-readthedocs-io-en-main.pdf"
         else:
             pdf_path = Path(pdf_path)
         
@@ -58,7 +58,7 @@ def main():
     print("=" * 50)
     print("Skywater 130nm PDK Ingestion")
     print("=" * 50)
-    asyncio.run(ingest_skywater_pdk())
+    asyncio.run(ingest_pdk())
 
 
 if __name__ == "__main__":
