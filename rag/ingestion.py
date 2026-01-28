@@ -19,9 +19,14 @@ async def ingest_pdk(
     
     try:
         if pdf_path is None:
-            pdf_path = Path(__file__).parent / knowledge_base / "skywater-pdk-readthedocs-io-en-main.pdf"
+            pdf_path = Path(__file__).parent / "knowledge-base" / "skywater-pdk-readthedocs-io-en-main.pdf"
         else:
             pdf_path = Path(pdf_path)
+
+        if os.path.exists(os.path.join(working_dir, "kv_store_full_text.json")):
+            print("✅ Local data found! Skipping ingestion.")
+        else:
+            print("❌ Local data NOT found at path. This is why it is rerunning.")
         
         if not pdf_path.exists():
             raise FileNotFoundError(f"PDF not found: {pdf_path}")
