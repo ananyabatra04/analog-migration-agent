@@ -43,9 +43,7 @@ async def ingest_pdk(
         await rag.process_document_complete(
             file_path=str(pdf_path),
             output_dir=output_dir,
-            parse_method="auto",
-            start_page=0,
-            end_page=30
+            parse_method="auto"
         )
         
         print("INGESTION COMPLETE")
